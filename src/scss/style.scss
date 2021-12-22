@@ -1,5 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
 
+$light1: rgb(255, 255, 255);
+$light2: rgb(236, 236, 236);
+$dark1: rgb(41, 41, 41);
+$dark2: rgb(99, 99, 99);
+$dark3: rgb(175, 175, 175);
+$blue2: rgb(0, 110, 255);
+$red: red;
+$fs1: 1rem;
+$fs2: 1.1rem;
+
 * {
     padding: 0;
     margin: 0;
@@ -8,4 +18,11 @@
     cursor: default;
 }
 
-@import "./nav"
+body {
+    background-image: url(https://desktop.any.do/assets/themes/hd/21.webp);
+    background-size: cover;
+    display: flex;
+}
+
+@import "./nav";
+@import "./main";

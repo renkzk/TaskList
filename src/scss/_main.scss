@@ -1,0 +1,76 @@
+main {
+    display: flex;
+    flex-grow: 1;
+    justify-content: center;
+    padding: 3rem 0;
+}
+
+#list-display {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 60rem;
+}
+
+#list-header {
+    background-color: $light1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: .5rem;
+    padding: .3rem 2rem;
+
+    span {
+        color: $dark2;
+    }
+}
+
+#list-body {
+    background-color: $light1;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    padding: 1rem 0;
+    border-radius: .5rem;
+}
+
+#main-add-task-btn {
+    color: $dark2;
+    font-size: $fs1;
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: .7rem;
+    padding: .5rem 2rem;
+    cursor: pointer;
+    *{cursor: pointer;}
+
+    &:hover {
+        color: $blue2;
+    }
+}
+
+#dlt-btns {
+    border-top: solid .1rem $dark3;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: .3rem 0;
+    display: flex;
+    justify-content: space-evenly;
+
+    button {
+        font-size: $fs1;
+        color: $dark2;
+        border: none;
+        background: none;
+        cursor: pointer;
+
+        &:hover {
+            color: $red;
+        }
+    }
+}

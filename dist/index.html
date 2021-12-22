@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://kit.fontawesome.com/ea358ae986.js" crossorigin="anonymous"></script>
     <script defer src="main.js"></script>
-    <title>TaskList</title>
+    <title>Task List</title>
 </head>
 <body>
     <nav id="nav">
@@ -50,5 +50,22 @@
             </div>
         </section>
     </nav>
+
+    <main>
+        <div id="list-display">
+            <div id="list-header">
+                <h2 id="list-name">Inbox</h2>
+                <span id="task-counter">0 tasks remaining</span>
+            </div>
+            <div id="list-body">
+                <div id="tasks-container"></div>
+                <button id="main-add-task-btn"><i class="fas fa-plus"></i><span>Add a task</span></button>
+                <div id="dlt-btns">
+                    <button id="dlt-completed-tasks">Delete completed tasks</button>
+                    <button id="dlt-all-tasks">Delete all tasks</button>
+                </div>
+            </div>
+        </div>
+    </main>
 </body>
 </html>
