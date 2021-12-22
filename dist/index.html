@@ -4,10 +4,51 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="https://kit.fontawesome.com/ea358ae986.js" crossorigin="anonymous"></script>
     <script defer src="main.js"></script>
     <title>TaskList</title>
 </head>
 <body>
-    
+    <nav id="nav">
+        <div id="logo">
+            <i class="fas fa-check-double"></i>
+            <h1>Task List</h1>
+        </div>
+        <button id="nav-add-task-btn"><i class="fas fa-plus"></i>Add a task</button>
+        <section id="lists">
+            <div id="default-lists">
+                <li id="inbox-list" class="default-list">
+                    <i class="fas fa-folder-open"></i>
+                    Inbox
+                </li>
+                <li id="today-list" class="default-list">
+                    <i class="fas fa-calendar-day"></i>
+                    Today
+                </li>
+                <li id="upcoming-list" class="default-list">
+                    <i class="fas fa-calendar-alt"></i>
+                    Upcoming
+                </li>
+            </div>
+            <div id="user-lists-div">
+                <div id="user-lists-title" class="default-list">
+                    <i class="fas fa-chevron-down"></i>
+                    My Lists
+                </div>
+                    <div>
+                        <div id="user-lists-container">
+                            <li class="user-list">Grocery List</li>
+                            <li class="user-list">Gym</li>
+                            <li class="user-list">Personal</li>
+                        </div>
+                        <form id="new-list-form" onclick="document.getElementById('new-list-input').focus();">
+                            <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30" required/>
+                            <button id="new-list-btn" type="submit"><i class="fas fa-plus"></i></button>
+                        </form>
+                    </div>
+            </div>
+        </section>
+    </nav>
 </body>
 </html>
