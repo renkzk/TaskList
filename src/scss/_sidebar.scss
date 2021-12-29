@@ -15,7 +15,7 @@ nav {
     justify-content: center;
     align-items: center;
     align-self: center;
-    border-bottom: solid .1rem $dark1;
+    border-bottom: solid .1rem $dark3;
     padding-bottom: 1rem;
     width: 9rem;
 }
@@ -81,7 +81,7 @@ nav {
 }
 
 #upcoming-list i {
-    color: rgb(151, 0, 151);
+    color: $purple1;
 }
 
 #user-lists-title {
@@ -89,14 +89,41 @@ nav {
     font-family: sans-serif;
     font-weight: bolder;
 
-    i {
+    #user-lists-arrow {
         color: $dark3;
         font-size: $fs2;
-
+        left: 1.5rem;
+        pointer-events: none;
     }
 
-    &:hover i {
+    &:hover #user-lists-arrow {
         color: $blue2;
+    }
+}
+
+#user-lists-modal {
+    margin-top: .7rem;
+    opacity: 0;
+    transform: translateY(-15px);
+    pointer-events: none;
+    transition: 150ms ease-in-out;
+    z-index: 10;
+}
+
+#user-lists-arrow{
+    transition: 150ms;
+}
+
+#user-lists-title.open {
+    #user-lists-arrow {
+        transform:rotate(90deg);
+    }
+
+    ~#user-lists-modal {
+        z-index: 1;
+        opacity: 1;
+        transform: translateY(0);
+        pointer-events: auto;
     }
 }
 

@@ -1,3 +1,4 @@
+//MAIN
 main {
     display: flex;
     flex-grow: 1;
@@ -31,10 +32,169 @@ main {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    padding: 1rem 0;
     border-radius: .5rem;
 }
 
+//TASK
+.task {
+    display: flex;
+    align-items: center;
+    position: relative;
+    border-bottom: .1rem solid $light2;
+    cursor: pointer;
+    * {cursor: pointer;}
+}
+
+// CUSTOM CHECKBOX
+.custom-cb{
+    display: flex;
+    align-items: center;
+
+    input[type='checkbox'] {
+        display: none;
+    }
+
+    label::before {
+        content: '';
+        display: flex;
+        width: .1rem;
+        height: .1rem;
+        padding: .5rem;
+        border: solid .15rem $blue1;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 2rem;
+        margin-left: 3rem;
+        transition: 100ms;
+        font-size: .9rem;
+        color: $light1;
+    }
+
+    label:hover::before {
+        content: '\002714';
+        background-color: $blue1;
+    }
+
+    label:active::before {
+        transform: scale(1.1);
+    }
+
+    .checkbox:checked + label::before {
+        content: '\002714';
+        background-color: $blue1;
+        opacity: .5;
+    }
+
+    // CROSSING TEXT ANIMATION WHEN INTERACTING WITH CHECKBOX
+    span {
+        position: relative;
+    }
+    span::after {
+        content: '';
+        position: absolute;
+        left: -.3rem;
+        right: -.3rem;
+        top: 48%;
+        height: .1rem;
+        transform: scaleX(0);
+        transition: transform 150ms ease-in-out;
+        transform-origin: right;
+        background-color: $dark2;
+    }
+
+    .checkbox:checked + label + span {
+        opacity: .5;
+
+        &::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    }
+
+    //CHANGE CUSTOM CHECKBOX COLOR BASED ON TASK PRIORITY
+    [data-task-priority='medium'] {
+        &::before {border: solid .15rem $orange1;}
+        &:hover::before {background: $orange1;}
+    }
+    .checkbox:checked + [data-task-priority='medium']::before {background: $orange1;}
+
+    [data-task-priority='high'] {
+        &::before {border: solid .15rem $red1;}
+        &:hover::before {background: $red1;}
+    }
+    .checkbox:checked + [data-task-priority='high']::before {background: $red1;}
+}
+
+//DUE DATE DESCRIPTION
+.due-date-desc {
+    font-size: .8rem;
+    top: 1.1rem;
+    right: 9.4rem;
+    color: $dark2;
+}
+
+//TASK OPTIONS
+.task-options {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    right: 2rem;
+
+    .options-icon {
+        display: none;
+        color: $dark3;
+        padding: .2rem;
+        border-radius: 50%;
+        position: relative;
+        pointer-events: auto;
+
+        &.active {
+            display: flex;
+            color: $dark2 !important;
+            background: $light2 !important;
+        }
+
+        ~.task-options-modal {
+            display: none !important;
+            top: 100%;
+        }
+    }
+}
+
+.task:hover .options-icon {
+    display: flex;
+
+    &:hover {
+        color: $dark2;
+        background: $light2;
+    }
+}
+
+.task-options-modal {
+    position: absolute;
+    background: $light1;
+    border: solid .1rem $dark3;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    z-index: 10;
+
+    span {
+       font-size: .9rem;
+       padding: .2rem 1rem;
+
+       &:hover {
+           background: $light2;
+       }
+    }
+
+    .task-dlt:hover {
+        color: $red1;
+    }
+}
+
+//MAIN ADD TASK BUTTON
 #main-add-task-btn {
     color: $dark2;
     font-size: $fs1;
@@ -43,15 +203,198 @@ main {
     display: flex;
     align-items: center;
     gap: .7rem;
-    padding: .5rem 2rem;
     cursor: pointer;
-    *{cursor: pointer;}
+    
+    span {
+        pointer-events: none;
+    }
 
     &:hover {
         color: $blue2;
     }
+
+    &.open { 
+        display: none;
+
+        ~#new-task-form {
+            display: flex !important;
+        }
+    }
 }
 
+//NEW TASK FORM MODAL
+#main-add-task-btn {
+    padding: 1.5rem 3.3rem;
+}
+
+#new-task-form {
+    margin: 1.5rem 3.3rem;
+    position: relative;
+    display: none;
+    flex-direction: column;
+    gap: .7rem;
+    border: 1px solid $blue1;
+    border-radius: 5px;
+    font-size: $fs1;
+    width: 50%;
+    height: fit-content;
+    padding: .8rem 1rem;
+
+    .text-input {
+        border: none;
+        cursor: text;
+        outline: none;
+    }
+
+    #new-task-title {
+        font-size: $fs1;
+        border-bottom: solid .1rem $dark3;
+    }
+
+    #new-task-details {
+        padding: .3rem;
+        resize: none;
+        outline: solid .1rem $dark3;
+        font-size: .9rem;
+    }
+}
+
+.set-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 3rem;
+
+    .set-input {
+        background: none;
+        border: solid .1rem $dark3;
+        border-radius: 6px;
+        height: 1.8rem;
+        padding: 0 .7rem;
+        display: flex;
+        gap: .4rem;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: .8rem;
+    }
+}
+
+#set-list-container, #set-priority-container{
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+#new-task-list i {
+font-size: 1rem;
+color: $orange1;  
+}
+
+#set-list-modal, #set-priority-modal {
+    display: flex;
+    z-index: 2;
+    background-color: $light1;
+    font-size: .8rem;
+    border: solid .1rem $dark3;
+    border-radius: 5px;
+    position: absolute;
+    flex-direction: column;
+    width: 9rem;
+    padding: .09rem 0;
+    top: 100%;
+
+    [data-set-list-holder] {
+        display: flex;
+        flex-direction: column;
+    }
+
+    span {
+        padding: .3rem .5rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: $light2;
+        }
+
+        &.selected::after {
+            content: '\002714';
+            position: absolute;
+            right: 1rem;
+            color: $blue1;
+        }
+
+    }
+}
+
+#set-date-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .date-icon {
+        font-size: 1rem;
+        color: $purple1;
+    }
+}
+
+#new-task-date {
+    width: 4.2rem;
+    max-width: fit-content;
+    text-align: center;
+    border: none;
+    outline: none;
+}
+
+#set-priority-modal {
+    width: 7rem;
+}
+
+#set-priority-modal span {
+    display: flex;
+    gap: .7rem;
+}
+
+#new-task-priority {
+    background: $blue1 !important;
+    color: $light1 !important;
+    border: none !important;
+}
+
+.low-priority-flag {color: $blue1;}
+.medium-priority-flag {color: $orange1;}
+.high-priority-flag {color: $red1;}
+
+.add-cancel {
+    position: absolute;
+    bottom: -2.5rem;
+    left: 0;
+    display: flex;
+    gap: 1rem;
+    
+    button {
+        padding: .3rem 0rem;
+        width: 6rem;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:active {scale: .95;}
+    }
+
+    #main-form-add-task-btn {
+        color: $light1;
+        border: .1rem solid $blue1;
+        background-color: $blue1;
+        
+        &:hover {background-color: $blue1;}
+    }
+
+    #main-form-cancel-btn {
+        border: .1rem solid $dark3;
+    }
+}
+
+//DELETE TASKS BUTTONS
 #dlt-btns {
     border-top: solid .1rem $dark3;
     position: absolute;
@@ -70,7 +413,17 @@ main {
         cursor: pointer;
 
         &:hover {
-            color: $red;
+            color: $red1;
         }
     }
 }
+
+.modal-toggler ~.modal {
+    display: none !important;
+}
+
+.modal-toggler.active ~.modal {
+    display: flex !important;
+    z-index: 10 !important;
+}
+

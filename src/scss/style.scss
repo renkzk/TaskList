@@ -5,8 +5,12 @@ $light2: rgb(236, 236, 236);
 $dark1: rgb(41, 41, 41);
 $dark2: rgb(99, 99, 99);
 $dark3: rgb(175, 175, 175);
+$blue1: rgb(0, 153, 255);
 $blue2: rgb(0, 110, 255);
-$red: red;
+$green1: rgb(61, 187, 114);
+$red1: rgb(187, 0, 0);
+$orange1: orange;
+$purple1: rgb(151, 0, 151);
 $fs1: 1rem;
 $fs2: 1.1rem;
 
@@ -22,7 +26,24 @@ body {
     background-image: url(https://desktop.any.do/assets/themes/hd/21.webp);
     background-size: cover;
     display: flex;
+    user-select: none;
 }
 
-@import "./nav";
+#overlay {
+    display: none;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+
+    &.active {
+        display: block;
+        z-index: 5;
+    }
+}
+
+i {
+    pointer-events: none;
+}
+
+@import "./sidebar";
 @import "./main";
