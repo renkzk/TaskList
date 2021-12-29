@@ -6,11 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://kit.fontawesome.com/ea358ae986.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!-- date picker library-->
     <script defer src="main.js"></script>
     <title>Task List</title>
 </head>
 <body>
-    <nav id="nav">
+    <nav id="sidebar">
         <div id="logo">
             <i class="fas fa-check-double"></i>
             <h1>Task List</h1>
@@ -31,23 +32,22 @@
                     Upcoming
                 </li>
             </div>
-            <div id="user-lists-div">
-                <div id="user-lists-title" class="default-list">
-                    <i class="fas fa-chevron-down"></i>
-                    My Lists
-                </div>
-                    <div>
-                        <div id="user-lists-container">
-                            <li class="user-list">Grocery List</li>
-                            <li class="user-list">Gym</li>
-                            <li class="user-list">Personal</li>
-                        </div>
-                        <form id="new-list-form" onclick="document.getElementById('new-list-input').focus();">
-                            <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30" required/>
-                            <button id="new-list-btn" type="submit"><i class="fas fa-plus"></i></button>
-                        </form>
-                    </div>
+            <div id="user-lists-title" class="default-list open">
+                <i id="user-lists-arrow" class="fas fa-chevron-right"></i></i>
+                My Lists
             </div>
+            <div id="user-lists-modal" class="">
+                <div id="user-lists-container">
+                    <div class="user-list">Grocery List</div>
+                    <div class="user-list">Gym</div>
+                    <div class="user-list">Personal</div>
+                </div>
+                <form id="new-list-form" onclick="document.getElementById('new-list-input').focus();">
+                    <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30" required/>
+                    <button id="new-list-btn" type="submit"><i class="fas fa-plus"></i></button>
+                </form>
+            </div>
+            
         </section>
     </nav>
 
@@ -58,8 +58,81 @@
                 <span id="task-counter">0 tasks remaining</span>
             </div>
             <div id="list-body">
-                <div id="tasks-container"></div>
-                <button id="main-add-task-btn"><i class="fas fa-plus"></i><span>Add a task</span></button>
+                <div id="tasks-container">
+                    <div class="task">
+                        <div class="custom-cb task-desc">
+                            <input type="checkbox" id="1" class="checkbox">
+                            <label for="1" data-task-priority='low'></label>
+                            <span class="task-name">Buttare la spazzatura</span>
+                            <span class="due-date-desc">10/10/2021</span>
+                        </div>
+                        <div class="task-options">
+                            <i class="fas fa-ellipsis-h options-icon modal-toggler"></i>
+                            <div class="task-options-modal modal">
+                                <span class="task-edit">Edit</span>
+                                <span class="task-dlt"> Delete</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="task">
+                        <div class="custom-cb task-desc">
+                            <input type="checkbox" id="1" class="checkbox">
+                            <label for="1" data-task-priority='high'></label>
+                            <span class="task-name">Buttare la spazzatura</span>
+                            <span class="due-date-desc">Tomorrow</span>
+                        </div>
+                        <div class="task-options">
+                            <i class="fas fa-ellipsis-h options-icon modal-toggler"></i>
+                            <div class="task-options-modal modal">
+                                <span class="task-edit">Edit</span>
+                                <span class="task-dlt"> Delete</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <button id="main-add-task-btn" class="no"><i class="fas fa-plus"></i><span>Add a task</span></button>
+                
+                <form id="new-task-form" action="">
+                    <input type="text" placeholder="Title" id="new-task-title" class="text-input">
+                    <textarea placeholder="Details" name="" id="new-task-details" class="text-input"></textarea>
+                    <div class="set-inputs">
+                        <div id="set-list-container">
+                            <button id="new-task-list" class="set-input modal-toggler">
+                                <i class="fas fa-folder-open"></i>
+                                Inbox
+                            </button>
+                            <div id="set-list-modal" class="modal">
+                                <span id="new-task-list-inbox">Inbox</span> 
+                                <div data-set-list-holder>
+                                    <span>List 1</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div id="set-date-container" onclick="document.getElementById('new-task-date').focus();">
+                            <div class="set-input">
+                                <i class="far fa-calendar-alt date-icon"></i>
+                                <input placeholder="Schedule" type="datetime-local" id="new-task-date">
+                            </div>
+                        </div>
+
+                        <div id="set-priority-container">
+                            <button id="new-task-priority" class="set-input modal-toggler">Priority</button>
+                            <div id="set-priority-modal" class="modal">
+                                <span><i class="fas fa-flag low-priority-flag"></i>Low</span>
+                                <span><i class="fas fa-flag medium-priority-flag"></i>Medium</span>
+                                <span><i class="fas fa-flag high-priority-flag"></i>High</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="add-cancel">
+                        <button id="main-form-add-task-btn">Add task</button>
+                        <button id="main-form-cancel-btn">Cancel</button>
+                    </div>
+                </form>
+                
                 <div id="dlt-btns">
                     <button id="dlt-completed-tasks">Delete completed tasks</button>
                     <button id="dlt-all-tasks">Delete all tasks</button>
@@ -67,5 +140,10 @@
             </div>
         </div>
     </main>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        flatpickr('#new-task-date', {})
+    </script>
+    <div id="overlay"></div>
 </body>
 </html>
