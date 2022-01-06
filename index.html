@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./css/style.css">
     <script src="https://kit.fontawesome.com/ea358ae986.js" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"> <!-- date picker library-->
     <script defer src="main.js"></script>
     <title>Task List</title>
 </head>
@@ -38,16 +37,18 @@
             </div>
             <div id="user-lists-modal" class="">
                 <div id="user-lists-container">
-                    <div class="user-list">Grocery List</div>
-                    <div class="user-list">Gym</div>
-                    <div class="user-list">Personal</div>
+                    <form id="edit-list-form" action="">
+                        <input type='text' id="edit-list-input" autocomplete="off" maxlength="30"/>
+                        <i class="fas fa-check" id="edit-list-confirm"></i>
+                    </form>
                 </div>
-                <form id="new-list-form" onclick="document.getElementById('new-list-input').focus();">
-                    <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30" required/>
-                    <button id="new-list-btn" type="submit"><i class="fas fa-plus"></i></button>
+                <form id="new-list-form">
+                    <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30"/>
+                    <button id="add-list-btn" type="submit"><i class="fas fa-plus"></i></button>
                 </form>
+                <div id="lists-overlay" class="overlay"></div>
+                <div class="editing-overlay"></div>
             </div>
-            
         </section>
     </nav>
 
@@ -92,7 +93,7 @@
                     </div>
                 </div>
 
-                <button id="main-add-task-btn" class="no"><i class="fas fa-plus"></i><span>Add a task</span></button>
+                <button id="main-add-task-btn"><i class="fas fa-plus"></i><span>Add a task</span></button>
                 
                 <form id="new-task-form" action="">
                     <input type="text" placeholder="Title" id="new-task-title" class="text-input">
@@ -111,10 +112,10 @@
                             </div>
                         </div>
                         
-                        <div id="set-date-container" onclick="document.getElementById('new-task-date').focus();">
+                        <div id="set-date-container">
                             <div class="set-input">
                                 <i class="far fa-calendar-alt date-icon"></i>
-                                <input placeholder="Schedule" type="datetime-local" id="new-task-date">
+                                <input placeholder="Schedule" id="new-task-date" class="flatpickr">
                             </div>
                         </div>
 
@@ -140,10 +141,7 @@
             </div>
         </div>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script>
-        flatpickr('#new-task-date', {})
-    </script>
-    <div id="overlay"></div>
+    <div id="overlay" class="overlay"></div>
+    <div id="editing-overlay" class="editing-overlay"></div>
 </body>
 </html>
