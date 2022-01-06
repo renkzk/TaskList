@@ -1,7 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Roboto&display=swap');
+// importing the flatpickr css from node modules doesnt work?? the best solution I could find is importing directly from the website 
+@import url("https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css");
 
 $light1: rgb(255, 255, 255);
-$light2: rgb(236, 236, 236);
+$light2: rgb(241, 241, 241);
 $dark1: rgb(41, 41, 41);
 $dark2: rgb(99, 99, 99);
 $dark3: rgb(175, 175, 175);
@@ -29,21 +31,16 @@ body {
     user-select: none;
 }
 
-#overlay {
-    display: none;
-    height: 100%;
-    width: 100%;
-    position: absolute;
+@import "./sidebar";
+@import "./main";
+@import './flatpickr';
 
-    &.active {
-        display: block;
-        z-index: 5;
-    }
-}
+
 
 i {
     pointer-events: none;
 }
 
-@import "./sidebar";
-@import "./main";
+
+
+

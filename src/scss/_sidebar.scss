@@ -41,12 +41,14 @@ nav {
     }
 }
 
+// LISTS SECTION
 #lists {
     margin-top: 1rem;
     display: flex;
     flex-direction: column;
 }
 
+// DEFAULT LISTS
 .default-list {
     padding: .5rem 3.3rem;
     font-size: $fs1;
@@ -84,6 +86,7 @@ nav {
     color: $purple1;
 }
 
+// MY LISTS
 #user-lists-title {
     font-size: $fs1;
     font-family: sans-serif;
@@ -105,9 +108,9 @@ nav {
     margin-top: .7rem;
     opacity: 0;
     transform: translateY(-15px);
+    transform: translateZ(100);
     pointer-events: none;
     transition: 150ms ease-in-out;
-    z-index: 10;
 }
 
 #user-lists-arrow{
@@ -120,59 +123,93 @@ nav {
     }
 
     ~#user-lists-modal {
-        z-index: 1;
         opacity: 1;
         transform: translateY(0);
+        transform: translateZ(100);
         pointer-events: auto;
     }
 }
 
 .user-list {
     padding: .5rem 3.3rem;
+    position: relative;
+    display: flex;
+    align-items: center;
     cursor: pointer;
+    *{cursor: pointer;}
 
     &:hover {
         background-color: $light2;
+
+        .modal-toggler {
+            display: flex;
+        }
     }
 }
 
-#new-list-form {
+.list-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 90%;
+}
+
+//LIST OPTIONS
+.list-options {
+    position: absolute;
+    right: 1.5rem;
+    display: flex;
+    justify-content: center;
+    cursor: pointer;
+    *{cursor: pointer;}
+
+    .options-icon {
+        display: none;
+        color: $dark3;
+        padding: .2rem;
+        border-radius: 50% !important;
+        position: relative;
+        pointer-events: auto;
+
+
+        &.active {
+            display: flex;
+            color: $dark2 !important;
+            background: $light2 !important;
+        }
+    }
+}
+
+.list-options-modal {
+    position: absolute;
+    top: 90%;
+    display: none !important;
+    background: $light1;
+    border: solid .1rem $dark3;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+
+    span {
+        font-size: .9rem;
+        padding: .2rem 1rem;
+ 
+        &:hover {
+            background: $light2;
+        }
+    }
+ 
+    .list-delete:hover {
+        color: $red1;
+    }
+}
+
+// ADD A NEW LIST INPUT
+#new-list-form, #edit-list-form {
     display: flex;
     gap: 1rem;
     padding: .5rem 3.3rem;
     cursor: text;
     * {cursor: text;}
-
-    input {
-        font-size: $fs1;
-        border: none;
-        border-bottom: solid .1rem $dark3;
-        outline: none;
-        width: 8rem;
-
-        &:focus {
-            color: $blue2;
-            border-bottom: solid .1rem $blue2;
-            
-            + button {
-                color: $blue2;
-            }
-        }
-    }
-    button {
-        background: none;
-        border: none;
-        color: $dark3;
-        font-size: $fs2;
-        cursor: pointer;
-        transition: 100ms;
-        * {cursor: pointer;}
-        
-
-        &:active {
-            transform: scale(.8);
-        }
-    }
 
     &:hover {
         input, button {
@@ -184,3 +221,91 @@ nav {
     }
 }
 
+#new-list-input, #edit-list-input {
+    font-size: $fs1;
+    border: none;
+    border-bottom: solid .1rem $dark3;
+    outline: none;
+    width: 8rem;
+
+    &:focus {
+        color: $blue2;
+        border-bottom: solid .1rem $blue2;
+        
+        + button {
+            color: $blue2;
+        }
+    }
+}
+
+#add-list-btn {
+    background: none;
+    border: none;
+    color: $dark3;
+    font-size: $fs2;
+    cursor: pointer;
+    transition: 100ms;
+    * {cursor: pointer;}
+    
+
+    &:active {
+        transform: scale(.8);
+    }
+}
+
+button#edit-list-confirm {
+    background: $blue1;
+    min-width: 1.5rem !important;
+    height: 1.5rem;
+    border: none;
+    border-radius: 3px;
+    transition: 150ms ease-in-out;
+    cursor: pointer;
+    
+    i {
+        font-size: 1rem;
+        color: white;
+    }
+
+    &:hover {
+        background: none;
+        
+        i {color: $blue1;}
+    }
+}
+
+//TRANSFORM AND OVERLAY STACKING ISSUES FIX
+#user-lists-modal {
+    position: relative;
+    z-index: 2;
+    #user-lists-container {
+        position: relative;
+        #edit-list-form {
+            position: relative;
+            z-index: 11;
+        } 
+        .user-list {
+            position: relative;
+            .list-options {
+                position: absolute;
+                z-index: 11;
+                .list-options-modal {
+                    position: absolute;
+                }
+            }
+        }
+    }
+}
+
+.editing-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+
+    &.active {
+        display: flex;
+    }
+}
