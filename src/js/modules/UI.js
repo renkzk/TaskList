@@ -95,14 +95,14 @@ export default class UI {
                 let newListName = editListInput.value
 
                 if (newListName== '') {
-                    alert(`The list name can't be empty.`)
                     UI.closeListEdit()
+                    alert(`The list name can't be empty.`)
                     return
                 }
 
                 if (Storage.getTaskList().contains(newListName)) {
-                    alert(`This list already exists`)
                     UI.closeListEdit()
+                    alert(`This list already exists`)
                     return
                 }
 

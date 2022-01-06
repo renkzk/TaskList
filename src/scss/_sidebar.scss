@@ -188,6 +188,7 @@ nav {
     border-radius: 3px;
     display: flex;
     flex-direction: column;
+    z-index: 100;
 
     span {
         font-size: .9rem;
@@ -297,7 +298,7 @@ button#edit-list-confirm {
     }
 }
 
-.editing-overlay {
+#lists-overlay, .editing-overlay {
     display: none;
     position: absolute;
     top: 0;
