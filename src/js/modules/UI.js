@@ -144,7 +144,7 @@ export default class UI {
 
         function addGlobalEventListener(type, selector, callback) {
             document.addEventListener(type, e => {
-                if (e.target.matches(selector || selector)) callback(e)
+                if (e.target.matches(selector)) callback(e)
             })
         }
 
@@ -174,7 +174,10 @@ export default class UI {
         addGlobalEventListener('click', '#user-lists-title', e => e.target.classList.toggle('open'))
 
         //open and close main add task form
-        addGlobalEventListener('click', '#main-add-task-btn', e => toggleNewTaskForm())
+        addGlobalEventListener('click', '#main-add-task-btn', e => {
+            toggleNewTaskForm()
+            resetDate()
+        })
         addGlobalEventListener('click', '#main-form-cancel-btn', e => toggleNewTaskForm())
         function toggleNewTaskForm() {
             let mainAddTaskBtn = document.querySelector('#main-add-task-btn')
@@ -188,6 +191,10 @@ export default class UI {
             modal.classList.toggle('active')
             addOverlay()
             addGlobalEventListener('mouseover', '.overlay.active', e => {
+                removeOverlay()
+                closeActiveModals()
+            })
+            addGlobalEventListener('mouseover', '.set-inputs', e => {
                 removeOverlay()
                 closeActiveModals()
             })
@@ -209,14 +216,60 @@ export default class UI {
             activeModals.forEach(modal =>modal.classList.remove('active'))
         }
 
-        //FLATPICKR CONFIG
-        flatpickr('.flatpickr', {
-            altInput: true,
-            altFormat: "F j, Y",
-            // enableTime: true,
-            // time_24hr: true,
-            minDate: 'today'
+        // FLATPICKR CONFIG
+        let selectedDate = document.querySelector('#selected-date')
+        let setTimeBtn = document.querySelector('#set-time-btn')
+        let selectedTime = document.querySelector('#selected-time')
+        let removeSelectedDateBtn = document.querySelector('#remove-selected-date-btn')
+
+        flatpickr('#flatpickr-date', {
+            inline: true,
+            dateFormat: 'd M Y',
+            minDate: 'today',
+            enableTime: false,
+            onChange: function(dateObject, dateString) {
+                selectedDate.innerHTML = dateString
+                setTimeBtn.classList.remove('disabled')
+                removeSelectedDateBtn.classList.remove('hidden')
+            }
         })
+
+
+        addGlobalEventListener('click', '#set-time-btn', e => {
+            let btn = e.target
+            if (btn.innerText == 'Set Time') {
+                btn.innerText = 'Remove Time'
+                btn.classList.add('remove')
+                selectedTime.innerText = '(00:00)'
+                flatpickr('#flatpickr-time', {
+                    inline: true,
+                    noCalendar: true,
+                    enableTime: true,
+                    time_24hr: true,
+                    defaultHour: '00',
+                    onChange: function(timeObject, timeString) {
+                        console.log(timeString)
+                        selectedTime.innerText = `(${timeString})`
+                    }
+                })
+            }
+            else {
+                btn.innerText = 'Set Time'
+                btn.classList.remove('remove')
+                selectedTime.innerText = ''
+                flatpickr('#flatpickr-time', {
+                    inline: false,
+                })
+            }
+        })
+
+        addGlobalEventListener('click', '#remove-selected-date-btn', e => resetDate())
+        function resetDate() {
+            event.preventDefault()
+            selectedDate.innerHTML = 'Schedule'
+            selectedTime.innerHTML = ''
+            removeSelectedDateBtn.classList.add('hidden')
+        }
 
         //LIFE QUALITY CHANGES
         addGlobalEventListener('click', 'button', e => e.preventDefault())
@@ -229,5 +282,7 @@ export default class UI {
             let input = e.target.children[0]
             input.focus()
         })
+
+        document.addEventListener('click', e => console.log(e.target))
     }
 }

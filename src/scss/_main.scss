@@ -262,6 +262,7 @@ main {
 .set-inputs {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 3rem;
     z-index: 2;
 
@@ -280,10 +281,11 @@ main {
     }
 }
 
-#set-list-container, #set-priority-container{
+#set-list-container, #set-date-container, #set-priority-container{
     position: relative;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    align-items: center;
 }
 
 #new-task-list i {
@@ -326,23 +328,60 @@ color: $orange1;
     }
 }
 
-#set-date-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+#new-task-date {
+   color: $dark2;
+   span {pointer-events: none;}
+   padding-right: .3rem;
+}
 
-    .date-icon {
-        font-size: 1rem;
-        color: $purple1;
+#set-date-modal {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    top: 100%;
+    background-color: $light1;
+}
+
+#remove-selected-date-btn {
+    position: relative;
+    right: -.3rem;
+    height: 1.8rem;
+    width: 1.8rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: solid .1rem $dark3;
+    cursor: pointer;
+    
+    &:hover {
+        color: $red1;
+    }
+
+    &.hidden {
+        display: none;
     }
 }
 
-#new-task-date {
-    width: 4.2rem;
-    max-width: fit-content;
-    text-align: center;
-    border: none;
-    outline: none;
+.set-time-btn-wrapper {
+    cursor: not-allowed;
+}
+#set-time-btn {
+    width: 100%;
+    margin-top: .15rem;
+    background: $light1;
+    border: solid .1rem $dark3;
+    padding: .5rem 0;
+    cursor: pointer;
+
+    &.disabled {
+        color: $dark3;
+        pointer-events: none;
+    }
+
+    &.remove {
+        color: $red1;
+    }
 }
 
 #set-priority-modal {
@@ -364,7 +403,7 @@ color: $orange1;
 .medium-priority-flag {color: $orange1;}
 .high-priority-flag {color: $red1;}
 
-.add-cancel {
+.add-cancel-btns {
     position: absolute;
     bottom: -2.5rem;
     left: 0;
