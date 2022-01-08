@@ -36,12 +36,7 @@
                 My Lists
             </div>
             <div id="user-lists-modal" class="">
-                <div id="user-lists-container">
-                    <form id="edit-list-form" action="">
-                        <input type='text' id="edit-list-input" autocomplete="off" maxlength="30"/>
-                        <i class="fas fa-check" id="edit-list-confirm"></i>
-                    </form>
-                </div>
+                <div id="user-lists-container"></div>
                 <form id="new-list-form">
                     <input id="new-list-input" type="text" placeholder="Add a list" autocomplete="off" maxlength="30"/>
                     <button id="add-list-btn" type="submit"><i class="fas fa-plus"></i></button>
@@ -113,9 +108,21 @@
                         </div>
                         
                         <div id="set-date-container">
-                            <div class="set-input">
+                            <button id="new-task-date" class="set-input modal-toggler">
                                 <i class="far fa-calendar-alt date-icon"></i>
-                                <input placeholder="Schedule" id="new-task-date" class="flatpickr">
+                                <span id="selected-date">Schedule</span>
+                                <span id="selected-time"></span>
+                                <div id="remove-selected-date-btn" class="hidden">&#10005;</div>
+                            </button>
+                            <div id="set-date-modal" class="modal">
+                                <div id="flatpickr-date"></div>
+                                <div class="set-time-btn-wrapper">
+                                    <button id="set-time-btn" class="disabled">
+                                        Set Time
+                                    </button>
+                                </div>
+                                
+                                <div id="flatpickr-time" class=".flatpickr"></div>
                             </div>
                         </div>
 
@@ -128,7 +135,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="add-cancel">
+                    <div class="add-cancel-btns">
                         <button id="main-form-add-task-btn">Add task</button>
                         <button id="main-form-cancel-btn">Cancel</button>
                     </div>
