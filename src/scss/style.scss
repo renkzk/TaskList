@@ -2,44 +2,17 @@
 // importing the flatpickr css from node modules doesnt work?? the best solution I could find is importing directly from the website 
 @import url("https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css");
 
-$light1: rgb(255, 255, 255);
-$light2: rgb(241, 241, 241);
-$dark1: rgb(41, 41, 41);
-$dark2: rgb(99, 99, 99);
-$dark3: rgb(175, 175, 175);
-$blue1: rgb(0, 153, 255);
-$blue2: rgb(0, 110, 255);
-$green1: rgb(61, 187, 114);
-$red1: rgb(187, 0, 0);
-$orange1: orange;
-$purple1: rgb(151, 0, 151);
-$fs1: 1rem;
-$fs2: 1.1rem;
-
-* {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Roboto';
-    cursor: default;
-}
-
-body {
-    background-image: url(https://desktop.any.do/assets/themes/hd/21.webp);
-    background-size: cover;
-    display: flex;
-    user-select: none;
-}
+@import "./general";
 
 @import "./sidebar";
+
 @import "./main";
-@import './flatpickr';
 
+@import './components/main-new-task-form' ;
 
+@import './components/modals';
 
-i {
-    pointer-events: none;
-}
+@import './components/flatpickr';
 
 
 

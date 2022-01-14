@@ -42,7 +42,22 @@ main {
     position: relative;
     border-bottom: .1rem solid $light2;
     cursor: pointer;
-    * {cursor: pointer;}
+    *{cursor: pointer;}
+    .custom-cb {pointer-events: none;}
+    label {
+        cursor: pointer;
+        pointer-events: all;
+    }
+}
+
+//TASK DUE DATE
+.due-date-subtext {
+    position: absolute;
+    left: 0%;
+    top: 100%;
+    font-size: .9rem;
+    color: $dark2;
+    white-space: nowrap;
 }
 
 // CUSTOM CHECKBOX
@@ -87,10 +102,10 @@ main {
     }
 
     // CROSSING TEXT ANIMATION WHEN INTERACTING WITH CHECKBOX
-    span {
+    .task-name {
         position: relative;
     }
-    span::after {
+    .task-name::after {
         content: '';
         position: absolute;
         left: -.3rem;
@@ -103,7 +118,7 @@ main {
         background-color: $dark2;
     }
 
-    .checkbox:checked + label + span {
+    .checkbox:checked + label + .task-name {
         opacity: .5;
 
         &::after {
@@ -126,312 +141,8 @@ main {
     .checkbox:checked + [data-task-priority='high']::before {background: $red1;}
 }
 
-//DUE DATE DESCRIPTION
-.due-date-desc {
-    font-size: .8rem;
-    top: 1.1rem;
-    right: 9.4rem;
-    color: $dark2;
-}
-
-//TASK OPTIONS
-.task-options {
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    right: 2rem;
-    z-index: 2;
-
-    .options-icon {
-        display: none;
-        color: $dark3;
-        padding: .2rem;
-        border-radius: 50%;
-        position: relative;
-        pointer-events: auto;
-
-        &.active {
-            display: flex;
-            color: $dark2 !important;
-            background: $light2 !important;
-        }
-
-        ~.task-options-modal {
-            display: none !important;
-            top: 90%;
-        }
-    }
-}
-
-.task:hover .options-icon {
-    display: flex;
-
-    &:hover {
-        color: $dark2;
-        background: $light2;
-    }
-}
-
-.task-options-modal {
-    position: absolute;
-    background: $light1;
-    border: solid .1rem $dark3;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-
-    span {
-       font-size: .9rem;
-       padding: .2rem 1rem;
-
-       &:hover {
-           background: $light2;
-       }
-    }
-
-    .task-dlt:hover {
-        color: $red1;
-    }
-}
-
 //MAIN ADD TASK BUTTON
-#main-add-task-btn {
-    color: $dark2;
-    font-size: $fs1;
-    background: none;
-    border: none;
-    display: flex;
-    align-items: center;
-    gap: .7rem;
-    cursor: pointer;
-    
-    span {
-        pointer-events: none;
-    }
 
-    &:hover {
-        color: $blue2;
-    }
-
-    &.open { 
-        display: none;
-
-        ~#new-task-form {
-            display: flex !important;
-        }
-    }
-}
-
-//NEW TASK FORM MODAL
-#main-add-task-btn {
-    padding: 1.5rem 3.3rem;
-}
-
-#new-task-form {
-    margin: 1.5rem 3.3rem;
-    position: relative;
-    display: none;
-    flex-direction: column;
-    gap: .7rem;
-    border: 1px solid $blue1;
-    border-radius: 5px;
-    font-size: $fs1;
-    width: 50%;
-    height: fit-content;
-    padding: .8rem 1rem;
-
-    .text-input {
-        border: none;
-        cursor: text;
-        outline: none;
-    }
-
-    #new-task-title {
-        font-size: $fs1;
-        border-bottom: solid .1rem $dark3;
-    }
-
-    #new-task-details {
-        padding: .3rem;
-        resize: none;
-        outline: solid .1rem $dark3;
-        font-size: .9rem;
-    }
-}
-
-.set-inputs {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 3rem;
-    z-index: 2;
-
-    .set-input {
-        background: none;
-        border: solid .1rem $dark3;
-        border-radius: 6px;
-        height: 1.8rem;
-        padding: 0 .7rem;
-        display: flex;
-        gap: .4rem;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        font-size: .8rem;
-    }
-}
-
-#set-list-container, #set-date-container, #set-priority-container{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-#new-task-list i {
-font-size: 1rem;
-color: $orange1;  
-}
-
-#set-list-modal, #set-priority-modal {
-    display: flex;
-    background-color: $light1;
-    font-size: .8rem;
-    border: solid .1rem $dark3;
-    border-radius: 5px;
-    position: absolute;
-    flex-direction: column;
-    width: 9rem;
-    padding: .09rem 0;
-    top: 100%;
-
-    [data-set-list-holder] {
-        display: flex;
-        flex-direction: column;
-    }
-
-    span {
-        padding: .3rem .5rem;
-        cursor: pointer;
-
-        &:hover {
-            background-color: $light2;
-        }
-
-        &.selected::after {
-            content: '\002714';
-            position: absolute;
-            right: 1rem;
-            color: $blue1;
-        }
-
-    }
-}
-
-#new-task-date {
-   color: $dark2;
-   span {pointer-events: none;}
-   padding-right: .3rem;
-}
-
-#set-date-modal {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    top: 100%;
-    background-color: $light1;
-}
-
-#remove-selected-date-btn {
-    position: relative;
-    right: -.3rem;
-    height: 1.8rem;
-    width: 1.8rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-left: solid .1rem $dark3;
-    cursor: pointer;
-    
-    &:hover {
-        color: $red1;
-    }
-
-    &.hidden {
-        display: none;
-    }
-}
-
-.set-time-btn-wrapper {
-    cursor: not-allowed;
-}
-#set-time-btn {
-    width: 100%;
-    margin-top: .15rem;
-    background: $light1;
-    border: solid .1rem $dark3;
-    padding: .5rem 0;
-    cursor: pointer;
-
-    &.disabled {
-        color: $dark3;
-        pointer-events: none;
-    }
-
-    &.remove {
-        color: $red1;
-    }
-}
-
-#set-priority-modal {
-    width: 7rem;
-}
-
-#set-priority-modal span {
-    display: flex;
-    gap: .7rem;
-}
-
-#new-task-priority {
-    background: $blue1 !important;
-    color: $light1 !important;
-    border: none !important;
-}
-
-.low-priority-flag {color: $blue1;}
-.medium-priority-flag {color: $orange1;}
-.high-priority-flag {color: $red1;}
-
-.add-cancel-btns {
-    position: absolute;
-    bottom: -2.5rem;
-    left: 0;
-    display: flex;
-    gap: 1rem;
-    
-    button {
-        padding: .3rem 0rem;
-        width: 6rem;
-        font-size: 1rem;
-        border-radius: 6px;
-        cursor: pointer;
-
-        &:active {scale: .95;}
-    }
-
-    #main-form-add-task-btn {
-        color: $light1;
-        border: .1rem solid $blue1;
-        background-color: $blue1;
-        
-        &:hover {background-color: $blue1;}
-    }
-
-    #main-form-cancel-btn {
-        border: .1rem solid $dark3;
-    }
-}
 
 //DELETE TASKS BUTTONS
 #dlt-btns {
@@ -454,23 +165,6 @@ color: $orange1;
         &:hover {
             color: $red1;
         }
-    }
-}
-
-.modal-toggler {
-    pointer-events: all;
-
-    &.active {
-        display: flex !important;
-    }
-
-    ~.modal {
-        display: none !important;
-    }
-
-    &.active ~.modal {
-        display: flex !important;
-        z-index: 10 !important;
     }
 }
 

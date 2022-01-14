@@ -48,6 +48,16 @@ nav {
     flex-direction: column;
 }
 
+.list.selected {
+    background-color: $blue1;
+    color: $light1;
+
+    &:hover {
+        background-color: $blue1;
+        color: $light1;
+    }
+}
+
 // DEFAULT LISTS
 .default-list {
     padding: .5rem 3.3rem;
@@ -65,6 +75,8 @@ nav {
         cursor: pointer;
     }
 
+    span {pointer-events: none;}
+
     &:hover {
         background-color: $light2;
     }
@@ -74,15 +86,15 @@ nav {
     }
 }
 
-#inbox-list i {
+#inbox i {
     color: rgb(255, 166, 0);
 }
 
-#today-list i {
+#today i {
     color: rgb(20, 175, 0);
 }
 
-#upcoming-list i {
+#upcoming i {
     color: $purple1;
 }
 
@@ -136,72 +148,18 @@ nav {
     display: flex;
     align-items: center;
     cursor: pointer;
-    *{cursor: pointer;}
+    * {cursor: pointer;}
 
-    &:hover {
-        background-color: $light2;
+    
+    span {pointer-events: none;}
 
-        .modal-toggler {
-            display: flex;
-        }
-    }
+    &:hover {background-color: $light2;}
 }
 
 .list-name {
     overflow: hidden;
     text-overflow: ellipsis;
     width: 90%;
-}
-
-//LIST OPTIONS
-.list-options {
-    position: absolute;
-    right: 1.5rem;
-    display: flex;
-    justify-content: center;
-    cursor: pointer;
-    *{cursor: pointer;}
-
-    .options-icon {
-        display: none;
-        color: $dark3;
-        padding: .2rem;
-        border-radius: 50% !important;
-        position: relative;
-        pointer-events: auto;
-
-
-        &.active {
-            display: flex;
-            color: $dark2 !important;
-            background: $light2 !important;
-        }
-    }
-}
-
-.list-options-modal {
-    position: absolute;
-    top: 90%;
-    display: none !important;
-    background: $light1;
-    border: solid .1rem $dark3;
-    border-radius: 3px;
-    display: flex;
-    flex-direction: column;
-    z-index: 100;
-
-    span {
-        font-size: .9rem;
-        padding: .2rem 1rem;
- 
-        &:hover {
-            background: $light2;
-        }
-    }
- 
-    .list-delete:hover {
-        color: $red1;
-    }
 }
 
 // ADD A NEW LIST INPUT
@@ -275,29 +233,6 @@ button#edit-list-confirm {
     }
 }
 
-//TRANSFORM AND OVERLAY STACKING ISSUES FIX
-#user-lists-modal {
-    position: relative;
-    z-index: 2;
-    #user-lists-container {
-        position: relative;
-        #edit-list-form {
-            position: relative;
-            z-index: 11;
-        } 
-        .user-list {
-            position: relative;
-            .list-options {
-                position: absolute;
-                z-index: 11;
-                .list-options-modal {
-                    position: absolute;
-                }
-            }
-        }
-    }
-}
-
 #lists-overlay, .editing-overlay {
     display: none;
     position: absolute;
@@ -310,3 +245,5 @@ button#edit-list-confirm {
         display: flex;
     }
 }
+
+

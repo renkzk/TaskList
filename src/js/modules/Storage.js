@@ -7,7 +7,7 @@ export default class Storage {
         localStorage.setItem('taskList', JSON.stringify(data))
     }
 
-    static getTaskList() {
+    static getTaskList() { //get all lists
         let taskList = Object.assign(
             new TaskList(),
             JSON.parse(localStorage.getItem('taskList'))
