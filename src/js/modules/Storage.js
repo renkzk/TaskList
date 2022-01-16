@@ -36,4 +36,10 @@ export default class Storage {
         taskList.getList(oldListName).setName(newListName)
         Storage.saveTaskList(taskList)
     }
+
+    static addTask(listName, task) {
+        let taskList = Storage.getTaskList()
+        taskList.getList(listName).addTask(task)
+        Storage.saveTaskList(taskList)
+    }
 }

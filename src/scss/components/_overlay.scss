@@ -1,0 +1,25 @@
+#overlay, #editing-overlay {
+    display: none;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.192);
+
+    &.active {
+        display: flex;
+    }
+}
+
+#lists-overlay, .editing-overlay {
+    display: none;
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+
+    &.active {
+        display: flex;
+    }
+}

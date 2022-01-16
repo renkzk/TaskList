@@ -48,9 +48,10 @@
 }
 
 .set-inputs {
+    position: relative;
     display: flex;
     justify-content: space-evenly;
-    align-items: center;
+    height: 2rem;
     z-index: 2;
 
     span {pointer-events: none;}
@@ -78,20 +79,15 @@
     align-items: center;
 }
 
-#set-list-container {
-    #selected-new-task-list {
-        max-width: 6rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .new-task-list {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-right: 2rem;
-    }
+#selected-new-task-list {
+    max-width: 6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
+
+
+
 #new-task-list {
     i {
         font-size: 1rem;
@@ -131,6 +127,13 @@
 #saved-lists-container {
     display: flex;
     flex-direction: column;
+}
+
+.new-task-list {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-right: 2rem !important;
+    white-space: nowrap;
 }
 
 #new-task-date {
@@ -200,7 +203,6 @@
 }
 
 #new-task-priority {
-    background: $blue1 !important;
     color: $light1 !important;
     border: none !important;
 }
@@ -208,6 +210,18 @@
 .low-priority-flag {color: $blue1;}
 .medium-priority-flag {color: $orange1;}
 .high-priority-flag {color: $red1;}
+
+#new-task-priority[data-task-priority=low] {
+    background-color: $blue1;
+}
+#new-task-priority[data-task-priority=medium] {
+    background-color: $orange1;
+}
+#new-task-priority[data-task-priority=high] {
+    background-color: $red1;
+}
+
+
 
 .add-cancel-btns {
     position: absolute;

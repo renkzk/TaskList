@@ -1,5 +1,4 @@
 import { toDate, isToday, isThisWeek, subDays } from 'date-fns'
-import Task from './Task'
 
 export default class List {
     constructor(name) {
@@ -24,15 +23,15 @@ export default class List {
     }
 
     getTask(taskName) {
-        return this.tasks.find((task) => task.getName() === taskName)
+        return this.tasks.find((task) => task.name === taskName)
     }
 
     contains(taskName) {
-        return this.tasks.some((task) => task.getName() === taskName)
+        return this.tasks.some((task) => task.name === taskName)
     }
 
     addTask(newTask) {
-        if (this.tasks.find((task) => task.getName() === newTask.name)) return;
+        if (this.tasks.find((task) => task.name === newTask.name)) return
         this.tasks.push(newTask)
     }
 
