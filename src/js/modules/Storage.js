@@ -7,6 +7,10 @@ export default class Storage {
         localStorage.setItem('taskList', JSON.stringify(data))
     }
 
+    static saveSelectedList(listId) {
+        localStorage.setItem('selectedListId', JSON.stringify(listId))
+    }
+
     static getTaskList() { //get all lists
         let taskList = Object.assign(
             new TaskList(),
@@ -25,9 +29,9 @@ export default class Storage {
         Storage.saveTaskList(taskList)
     }
 
-    static deleteList(listName) {
+    static deleteList(list) {
         let taskList = Storage.getTaskList()
-        taskList.deleteList(listName)
+        taskList.deleteList(list)
         Storage.saveTaskList(taskList)
     }
 

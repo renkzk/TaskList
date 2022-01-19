@@ -5,10 +5,11 @@ import { format } from 'date-fns'
 import flatpickr from "flatpickr";
 
 export default class UI {
-    
+
     static loadHomepage() {
         UI.loadLists()
         UI.initUserInputs()
+        UI.openList(document.querySelector('#Inbox'))
     }
 
     static loadLists() {
@@ -53,18 +54,54 @@ export default class UI {
 
     static createListElement(newListName) {
         let userListsContainer = document.querySelector('#user-lists-container')
-        userListsContainer.innerHTML += `
-        <div class="list user-list">
-            <span class="list-name">${newListName}</span>
-            <btn class="list-options">
-                <i class="fas fa-ellipsis-h options-icon"></i>
-                <div class="list-options-modal modal">
-                    <btn class="list-edit">Edit</btn>
-                    <btn class="list-delete"> Delete</btn>
-                </div>
-            </btn>
-        </div>
+        let newListElement = document.createElement('div')
+        newListElement.classList.add('list', 'user-list')
+        newListElement.id = newListName
+        newListElement.innerHTML = `
+        <span class="list-name">${newListName}</span>
+        <btn class="list-options">
+            <i class="fas fa-ellipsis-h options-icon"></i>
+            <div class="list-options-modal modal">
+                <btn class="list-edit">Edit</btn>
+                <btn class="list-delete"> Delete</btn>
+            </div>
+        </btn>
         `
+        let selectedList = JSON.parse(localStorage.getItem('selectedListId')) || "Inbox"
+        let unquotedSelectedList = selectedList.replace(/["]+/g, '')
+        if (newListName == unquotedSelectedList) {
+            newListElement.classList.add('selected')
+        }
+
+        userListsContainer.append(newListElement)
+        // userListsContainer.innerHTML += `
+        // <div id='${newListName}' class="list user-list">
+        //     <span class="list-name">${newListName}</span>
+        //     <btn class="list-options">
+        //         <i class="fas fa-ellipsis-h options-icon"></i>
+        //         <div class="list-options-modal modal">
+        //             <btn class="list-edit">Edit</btn>
+        //             <btn class="list-delete"> Delete</btn>
+        //         </div>
+        //     </btn>
+        // </div>
+        // `
+    }
+
+    static openList(listElement) {
+        document.querySelector('#tasks-container').innerHTML = ''
+        let lists = document.querySelectorAll('.list')
+        lists.forEach(list => list.classList.remove('selected'))
+        listElement.classList.add('selected')
+
+        let listName = listElement.id
+        Storage.saveSelectedList(JSON.stringify(listName))
+
+        let mainHeader = document.querySelector('#list-name-header')
+        mainHeader.innerHTML = listName
+
+        let tasks = Storage.getTaskList().getList(listName).getTasks()
+        tasks.forEach(task => UI.createTaskElement(task.name, task.details, task.dueDate, task.dueTime, task.priority))
     }
 
     //List Options
@@ -75,20 +112,24 @@ export default class UI {
 
     static deleteList() {
         let selectedList = UI.getTargetedListElement()
-        let selectedListName = selectedList.children[0].textContent
-        Storage.deleteList(selectedListName)
+        Storage.deleteList(selectedList.id)
+        let mainHeader = document.querySelector('#list-name-header').textContent
+        if (selectedList.id == mainHeader) {UI.openList(document.querySelector('#Inbox'))}
         UI.loadLists()
+
     }
 
     static openListEdit() {
         let selectedList = UI.getTargetedListElement()
-        let selectedListName = selectedList.children[0].textContent
+        let selectedListName = selectedList.id
         let editListForm = document.createElement('form')
         editListForm.innerHTML = `
         <input type='text' placeholder='${selectedListName}' id="edit-list-input" autocomplete="off" maxlength="30"/>
         <button type='submit' id="edit-list-confirm"><i class="fas fa-check"></i></button>
         `
         editListForm.id = 'edit-list-form'
+        if (selectedList.matches('.list.selected')) editListForm.classList.add('selected')
+        
         selectedList.replaceWith(editListForm)
         let editListInput = document.getElementById('edit-list-input')
         editListInput.focus()
@@ -96,52 +137,30 @@ export default class UI {
         let confirmButton = document.querySelector('#edit-list-confirm')
         confirmButton.addEventListener('click', e => confirmEdit())
         
-            function confirmEdit() {
-                let newListName = editListInput.value
+        function confirmEdit() {
+            let newListName = editListInput.value
 
-                if (newListName== '') {
-                    UI.closeListEdit()
-                    alert(`The list name can't be empty.`)
-                    return
-                }
-
-                if (Storage.getTaskList().contains(newListName)) {
-                    UI.closeListEdit()
-                    alert(`This list already exists`)
-                    return
-                }
-
-                Storage.renameList(selectedListName, newListName)
-                
-                //Rename list element
-                let newListElement = UI.createListElement(newListName)
-                editListForm.replaceWith(newListElement)
+            if (newListName== '') {
                 UI.closeListEdit()
+                alert(`The list name can't be empty.`)
+                return
             }
+
+            if (Storage.getTaskList().contains(newListName)) {
+                UI.closeListEdit()
+                alert(`This list already exists`)
+                return
+            }
+
+            Storage.renameList(selectedListName, newListName)
+            UI.closeListEdit()
         }
-            
+    }
+
     static closeListEdit() {
         let overlay = document.querySelectorAll('.editing-overlay')
         overlay.forEach(overlay => overlay.classList.remove('active'))
         UI.loadLists()
-    }
-
-    static selectList() {
-        let listElement = UI.getTargetedListElement()
-        let listName = listElement.querySelector('.list-name').textContent
-        let lists = document.querySelectorAll('.list')
-
-        lists.forEach(list => list.classList.remove('selected'))
-        listElement.classList.add('selected')
-        
-        UI.openList(listName)
-    }
-
-    static openList(listName) {
-        let mainHeader = document.querySelector('#list-name')
-        mainHeader.innerHTML = listName
-        let tasks = Storage.getTaskList().getList(listName).getTasks()
-        tasks.forEach(task => UI.createTaskElement(task.name, task.details, task.dueDate, task.dueTime, task.priority))
     }
 
     //TASKS MANAGING
@@ -170,7 +189,6 @@ export default class UI {
         }
 
         Storage.addTask(selectedList, new Task(name, details, dueDate, dueTime, priority))
-        let list = Storage.getTaskList().getList(selectedList).getTasks()
         UI.createTaskElement(name, details, dueDate, dueTime, priority)
     }
 
@@ -196,7 +214,7 @@ export default class UI {
         </div>
         `
     }
-        
+
     static addGlobalEventListener(type, selector, callback) {
         document.addEventListener(type, e => {
             if (e.target.matches(selector || selector)) callback(e)
@@ -214,15 +232,9 @@ export default class UI {
 
         //LISTS
         addGlobalEventListener('click', '.list', e => {
-            clearTasksContainer()
             if (document.querySelector('#new-task-form')) deleteNewTaskForm()
-            UI.selectList()
+            UI.openList(e.target)
         })
-
-        function clearTasksContainer() {
-            let tasksContainer = document.querySelector('#tasks-container')
-            tasksContainer.innerHTML = ''
-        }
 
         addGlobalEventListener('click', '#add-list-btn', e => UI.addList())
 
@@ -261,7 +273,7 @@ export default class UI {
             openFormBtn.style.display = 'none'
             let newTaskForm = document.createElement('form')
             newTaskForm.id = 'new-task-form'
-            let mainHeader = document.querySelector('#list-name').textContent
+            let mainHeader = document.querySelector('#list-name-header').textContent
             if (mainHeader == 'Today' || mainHeader == 'Upcoming') {mainHeader = 'Inbox'}
             newTaskForm.innerHTML = `
                     <input type="text" placeholder="Task" id="new-task-name" class="text-input">
@@ -343,13 +355,13 @@ export default class UI {
             .getLists()
             .forEach(list => {
                 if (list.name !== 'Today' && list.name !== 'Upcoming') {
-                    let savedList = document.createElement('span')
-                    savedList.classList.add('new-task-list')
-                    savedList.textContent = list.name
-                    if (savedList.textContent == document.querySelector('#selected-new-task-list').textContent) {
-                        savedList.classList.add('selected')
+                    let listCopy = document.createElement('span')
+                    listCopy.classList.add('new-task-list')
+                    listCopy.textContent = list.name
+                    if (listCopy.textContent == document.querySelector('#selected-new-task-list').textContent) {
+                        listCopy.classList.add('selected')
                     }
-                    listsContainer.append(savedList)
+                    listsContainer.append(listCopy)
                     }
                 })
         }
@@ -381,7 +393,7 @@ export default class UI {
             })
 
             addGlobalEventListener('click', '#set-time-btn', e => {
-                if (setTimeBtn.textContent == 'Set Time') {
+                if (setTimeBtn.innerText == 'Set Time') {
                     setTimeBtn.textContent = 'Remove Time'
                     setTimeBtn.classList.add('remove')
                     let time = flatpickr('#flatpickr-time', {
@@ -502,11 +514,11 @@ export default class UI {
         });
 
         //focus on input when clicking on form
-        addGlobalEventListener('click', 'form', e => { 
+        addGlobalEventListener('click', '#new-list-form', e => { 
             let input = e.target.children[0]
             input.focus()
         })
 
-        // document.body.addEventListener('click', e => console.log(new Date))
+        // document.body.addEventListener('click', e => console.log(e.target.textContent))
     }
 }

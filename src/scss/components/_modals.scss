@@ -49,7 +49,7 @@
 btn.list-delete:hover, .task-delete:hover {color: $red1;}
 
 .user-list.active {background-color: $light2;}
-.user-list.selected.active {background-color: $blue1;}
+.user-list.selected .list-options {display: none !important;}
 .user-list.active .list-options {display: flex; color: $dark2; background-color: $light2;}
 .user-list.active .modal {display: flex !important;}
 
