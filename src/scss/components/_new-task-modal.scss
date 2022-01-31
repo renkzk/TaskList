@@ -1,0 +1,47 @@
+#new-task-modal,
+#task-display {
+    position: absolute;
+    top: 30%;
+    background-color: $light-bg;
+    z-index: 9999999;
+    display: flex;
+    margin: 1.5rem 3.3rem;
+    flex-direction: column;
+    gap: 0.7rem;
+    border-radius: 5px;
+    font-size: $fs1;
+    width: 30rem;
+    height: fit-content;
+    padding: 0.8rem 1rem;
+    box-shadow: 0px 16px 24px 2px rgba(0, 0, 0, 0.14),
+        0px 6px 30px 5px rgba(0, 0, 0, 0.12),
+        0px 8px 10px -7px rgba(0, 0, 0, 0.2);
+
+    .text-input {
+        border: none;
+        cursor: text;
+        outline: none;
+    }
+}
+
+.task-modal-bottom-btns {
+    display: flex;
+    gap: 1rem;
+    border-top: solid 0.1rem $light-gray;
+    padding-top: 1rem;
+
+    btn {
+        padding: 0.3rem 0rem;
+        width: 6rem;
+        font-size: 1rem;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:active {
+            scale: 0.95;
+        }
+    }
+}

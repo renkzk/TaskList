@@ -1,20 +1,26 @@
-.user-list:hover .list-options {display: flex;}
-.task:hover .task-options {display: flex;}
+.user-list:hover .list-options {
+    display: flex;
+}
+.task:hover .task-options {
+    display: flex;
+}
 
-.list-options, .task-options {
+.list-options,
+.task-options {
     position: absolute;
     display: none;
     align-items: center;
     justify-content: center;
-    color: $dark3;
+    color: $gray;
     width: 1.7rem;
     height: 1.7rem;
     border-radius: 50%;
     transition: 150ms;
 
-    &:hover, &.active {
-        color: $dark2;
-        background-color: $light2;
+    &:hover,
+    &.active {
+        color: $dark-gray;
+        background-color: $light-grayish;
     }
 }
 
@@ -25,71 +31,71 @@
     right: 4rem;
 }
 
-.list-options, .task-options {
+.list-options,
+.task-options {
     .modal {
         position: absolute;
         display: none !important;
         top: 100%;
         display: flex;
         flex-direction: column;
-        background-color: $light1;
-        color: $dark1;
+        background-color: $light-bg;
+        color: $black;
         box-shadow: $modal-shadow;
-        z-index: 1000;
     }
 
     btn {
-        font-size: .9rem;
-        padding: .4rem .9rem;
+        font-size: 0.9rem;
+        padding: 0.4rem 0.9rem;
 
-        &:hover {background-color: $light2;}
-    }
-}
-
-btn.list-delete:hover, .task-delete:hover {color: $red1;}
-
-.user-list.active {background-color: $light2;}
-.user-list.selected .list-options {display: none !important;}
-.user-list.active .list-options {display: flex; color: $dark2; background-color: $light2;}
-.user-list.active .modal {display: flex !important;}
-
-.task-options.active {display: flex;}
-.task-options.active .modal {display: flex !important;}
-
-
-// TRANSFORM AND OVERLAY STACKING ISSUES FIX
-#user-lists-modal {
-    position: relative;
-    z-index: 2;
-    #user-lists-container {
-        position: relative;
-        #edit-list-form {
-            position: relative;
-            z-index: 11;
-        } 
-        .user-list {
-            position: relative;
-            .list-options {
-                position: absolute;
-                z-index: 11;
-                .list-options-modal {
-                    position: absolute;
-                }
-            }
+        &:hover {
+            background-color: $light-grayish;
         }
     }
 }
 
+btn.list-delete:hover,
+.task-delete:hover {
+    color: $red;
+}
+
+.user-list.active {
+    background-color: $light-grayish;
+}
+.user-list.selected .list-options {
+    display: none !important;
+}
+.user-list.active .list-options {
+    display: flex;
+    color: $dark-gray;
+    background-color: $light-grayish;
+}
+.user-list.active .modal {
+    display: flex !important;
+}
+
+.task-options.active {
+    display: flex;
+}
+.task-options.active .modal {
+    display: flex !important;
+}
+
 .set-input {
     cursor: pointer;
-    *{cursor: pointer;}
+    * {
+        cursor: pointer;
+    }
 }
 .modal {
     display: none !important;
+    position: relative;
     z-index: 99999;
 
     span {
         pointer-events: all;
     }
 }
-.set-input.active ~.modal {display: flex !important;}
+.set-input.active ~ .modal {
+    display: flex !important;
+}

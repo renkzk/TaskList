@@ -1,24 +1,10 @@
-#overlay, #editing-overlay {
-    display: none;
+.overlay,
+.task-modal-overlay {
     position: absolute;
-    width: 100%;
-    height: 100%;
+    height: 500vh;
+    width: 500vw;
+    left: -100rem;
+    // background-color: black;
+    cursor: default;
     z-index: 1;
-
-    &.active {
-        display: flex;
-    }
-}
-
-#lists-overlay, .editing-overlay {
-    display: none;
-    position: absolute;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-
-    &.active {
-        display: flex;
-    }
 }

@@ -1,0 +1,93 @@
+// CUSTOM CHECKBOX
+.custom-cb {
+    display: flex;
+    align-items: center;
+
+    input[type="checkbox"] {
+        display: none;
+    }
+
+    label::before {
+        content: "";
+        display: flex;
+        width: 0.1rem;
+        height: 0.1rem;
+        padding: 0.5rem;
+        border: solid 0.15rem $light-blue;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        margin: 1.5rem 2rem;
+        margin-left: 3rem;
+        transition: 100ms;
+        font-size: 0.9rem;
+        color: $light-bg;
+    }
+
+    label:hover::before {
+        content: "\002714";
+        background-color: $light-blue;
+    }
+
+    label:active::before {
+        transform: scale(1.1);
+    }
+
+    .checkbox:checked + label::before {
+        content: "\002714";
+        background-color: $light-blue;
+        opacity: 0.5;
+    }
+
+    .task-name {
+        position: relative;
+    }
+
+    // CROSSING TEXT ANIMATION WHEN INTERACTING WITH CHECKBOX
+    .task-name::after {
+        content: "";
+        position: absolute;
+        left: -0.3rem;
+        right: -0.3rem;
+        top: 48%;
+        height: 0.1rem;
+        transform: scaleX(0);
+        transition: transform 150ms ease-in-out;
+        transform-origin: right;
+        background-color: $black;
+    }
+
+    .checkbox:checked + label + .task-info .task-name {
+        opacity: 0.5;
+
+        &::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    }
+
+    //CHANGE CUSTOM CHECKBOX COLOR BASED ON TASK PRIORITY
+    [data-task-priority="medium"] {
+        &::before {
+            border: solid 0.15rem $orange;
+        }
+        &:hover::before {
+            background: $orange;
+        }
+    }
+    .checkbox:checked + [data-task-priority="medium"]::before {
+        background: $orange;
+    }
+
+    [data-task-priority="high"] {
+        &::before {
+            border: solid 0.15rem $red;
+        }
+        &:hover::before {
+            background: $red;
+        }
+    }
+    .checkbox:checked + [data-task-priority="high"]::before {
+        background: $red;
+    }
+}

@@ -1,5 +1,6 @@
 export default class Task {
     constructor(name, details, dueDate, dueTime, priority) {
+        this.id = Date.now().toString()
         this.name = name
         this.details = details
         this.dueDate = dueDate
@@ -15,6 +16,14 @@ export default class Task {
         return this.name
     }
 
+    edit(name, details, dueDate, dueTime, priority) {
+        this.name = name
+        this.details = details
+        this.dueDate = dueDate
+        this.dueTime = dueTime
+        this.priority = priority
+    }
+
     setDate(dueDate) {
         this.dueDate = dueDate
     }
@@ -24,9 +33,9 @@ export default class Task {
     }
 
     getDateFormatted() {
-        let day = this.dueDate.split('/')[0]
-        let month = this.dueDate.split('/')[1]
-        let year = this.dueDate.split('/')[2]
+        let day = this.dueDate.split("/")[0]
+        let month = this.dueDate.split("/")[1]
+        let year = this.dueDate.split("/")[2]
         return `${month}/${day}/${year}`
     }
 }
