@@ -8,9 +8,9 @@ export default class List {
         this.completedTasks = []
     }
 
-    // setName(name) {
-    //     this.name = name
-    // }
+    setName(name) {
+        this.name = name
+    }
 
     getName() {
         return this.name

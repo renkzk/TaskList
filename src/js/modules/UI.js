@@ -524,11 +524,15 @@ export default class UI {
             let overlay = document.createElement("div")
             if (
                 e.target.matches("#open-new-task-modal") ||
-                e.target.matches(".task")
+                e.target.matches(".task") ||
+                e.target.matches(".task-edit")
             ) {
                 overlay.classList.add("task-modal-overlay")
-            } else overlay.classList.add("overlay")
-            e.target.append(overlay)
+                document.body.append(overlay)
+            } else {
+                overlay.classList.add("overlay")
+                e.target.append(overlay)
+            }
             overlay.addEventListener("click", (e) => {
                 closeActiveModals()
                 overlay.remove()
@@ -548,6 +552,9 @@ export default class UI {
         function closeActiveModals() {
             let activeModals = document.querySelectorAll(".active")
             activeModals.forEach((modal) => modal.classList.remove("active"))
+        }
+
+        function removeActiveOverlay() {
             if (document.querySelector(".overlay")) {
                 document.querySelector(".overlay").remove()
             }
@@ -769,12 +776,13 @@ export default class UI {
 
         //TASK
         addGlobalEventListener("click", ".task", (e) => {
+            UI.openList(UI.getActiveList())
             openTask(e.target.dataset.id)
             addOverlay(e)
         })
 
         addGlobalEventListener("click", ".task-edit", (e) => {
-            closeActiveModals()
+            UI.openList(UI.getActiveList())
             openTask(e.target.closest(".task").dataset.id)
             addOverlay(e)
         })

@@ -1,10 +1,14 @@
-.overlay,
-.task-modal-overlay {
+.overlay {
     position: absolute;
     height: 500vh;
     width: 500vw;
-    left: -100rem;
-    // background-color: black;
-    cursor: default;
-    z-index: 1;
+    left: -250rem;
+    z-index: 1000;
+}
+
+.task-modal-overlay {
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    z-index: 1000;
 }
