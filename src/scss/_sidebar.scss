@@ -50,7 +50,9 @@ nav {
     flex-direction: column;
     z-index: -1;
 }
-
+.list {
+    white-space: nowrap;
+}
 .list.selected {
     background-color: $light-blue;
     color: $light-bg;

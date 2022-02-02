@@ -1,5 +1,6 @@
 .overlay {
     position: absolute;
+    cursor: default;
     height: 500vh;
     width: 500vw;
     left: -250rem;
@@ -8,6 +9,7 @@
 
 .task-modal-overlay {
     position: absolute;
+    cursor: default;
     height: 100vh;
     width: 100vw;
     z-index: 1000;

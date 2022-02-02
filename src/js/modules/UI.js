@@ -539,24 +539,21 @@ export default class UI {
             })
         }
 
+        //MODALS
+        function closeActiveModals() {
+            let activeModals = document.querySelectorAll(".active")
+            activeModals.forEach((modal) => modal.classList.remove("active"))
+            if (document.querySelector(".overlay")) {
+                document.querySelector(".overlay").remove()
+            }
+        }
+
         function removeOverlay() {
             if (document.querySelector(".overlay")) {
                 document.querySelector(".overlay").remove()
             }
             if (document.querySelector(".task-modal-overlay")) {
                 document.querySelector(".task-modal-overlay").remove()
-            }
-        }
-
-        //MODALS
-        function closeActiveModals() {
-            let activeModals = document.querySelectorAll(".active")
-            activeModals.forEach((modal) => modal.classList.remove("active"))
-        }
-
-        function removeActiveOverlay() {
-            if (document.querySelector(".overlay")) {
-                document.querySelector(".overlay").remove()
             }
         }
 
@@ -642,11 +639,40 @@ export default class UI {
             closeActiveModals()
             e.target.classList.toggle("active")
             addOverlay(e)
-            if (e.target == document.getElementById("new-task-list"))
-                createSetListDropdown()
+            if (e.target == document.getElementById("new-task-list")) {
+                createListSelector()
+            }
+            if (e.target == document.getElementById("new-task-priority")) {
+                createPrioritySelector()
+            }
         })
 
-        function createSetListDropdown() {
+        function createPrioritySelector() {
+            let modal = document.querySelector("#set-priority-modal")
+            modal.innerHTML = `
+                <span class="set-priority low-priority"><i class="fas fa-flag low-priority-flag"></i>Low</span>
+                <span class="set-priority medium-priority"><i class="fas fa-flag medium-priority-flag"></i>Medium</span>
+                <span class="set-priority high-priority"><i class="fas fa-flag high-priority-flag"></i>High</span>
+            `
+            let selectedPriority =
+                document.querySelector("#new-task-priority").dataset
+                    .taskPriority
+            if (selectedPriority == "medium") {
+                document
+                    .querySelector(".medium-priority")
+                    .classList.add("selected")
+            } else if (selectedPriority == "high") {
+                document
+                    .querySelector(".high-priority")
+                    .classList.add("selected")
+            } else {
+                document
+                    .querySelector(".low-priority")
+                    .classList.add("selected")
+            }
+        }
+
+        function createListSelector() {
             let listsContainer = document.querySelector(
                 "#saved-lists-container"
             )
@@ -674,7 +700,7 @@ export default class UI {
             let setListBtn = document.querySelector("#selected-new-task-list")
             setListBtn.textContent = e.target.textContent
             closeActiveModals()
-            createSetListDropdown()
+            createListSelector()
         })
 
         //NEW TASK CREATION
@@ -850,6 +876,13 @@ export default class UI {
             let mainSection = document.querySelector("main")
             mainSection.append(taskDisplay)
             initFlatpickr()
+
+            let dueDateSelector = document.querySelector("#selected-date")
+            if (dueDateSelector.textContent != "Schedule") {
+                document
+                    .querySelector("#remove-selected-date-btn")
+                    .classList.remove("hidden")
+            }
 
             let closeBtn = taskDisplay.querySelector("#close-task-modal")
             closeBtn.addEventListener("click", (e) => removeTaskModal())

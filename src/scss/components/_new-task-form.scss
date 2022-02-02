@@ -38,6 +38,9 @@
 #new-task-name {
     font-size: $fs1;
     border-bottom: solid 0.1rem $light-gray !important;
+    &:focus {
+        border-bottom: solid 0.1rem $light-blue !important;
+    }
 }
 
 #new-task-details {
@@ -45,6 +48,9 @@
     resize: none;
     outline: solid 0.1rem $light-gray !important;
     font-size: 0.9rem;
+    &:focus {
+        outline: solid 0.1rem $light-blue !important;
+    }
 }
 
 .set-inputs {
@@ -91,6 +97,10 @@
     i {
         font-size: 1rem;
         color: $orange;
+    }
+    &:hover,
+    &.active {
+        background-color: $light-grayish;
     }
 }
 
@@ -144,6 +154,11 @@
 
     span {
         white-space: nowrap;
+    }
+
+    &:hover,
+    &.active {
+        background-color: $light-grayish;
     }
 }
 
@@ -207,6 +222,10 @@
 #new-task-priority {
     color: $light-bg !important;
     border: none !important;
+    &:hover,
+    &.active {
+        filter: opacity(0.9);
+    }
 }
 
 .low-priority-flag {
