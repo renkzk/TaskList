@@ -1,4 +1,14 @@
-import { toDate, isToday, isThisWeek, subDays } from "date-fns"
+import {
+    toDate,
+    isToday,
+    isThisWeek,
+    subDays,
+    format,
+    addDays,
+    isWithinInterval,
+    parseIso,
+    startOfDay,
+} from "date-fns"
 import Storage from "./Storage"
 
 export default class List {
@@ -62,17 +72,24 @@ export default class List {
         this.deleteCompletedTask(taskId)
     }
 
-    getTasksToday() {
+    getTodayTasks() {
         return this.tasks.filter((task) => {
-            let taskDate = new Date(task.getDateFormatted())
-            return isToday(toDate(taskDate))
+            let taskDate = new Date(task.getFormattedDate())
+            let todayTasks = isToday(taskDate)
+            return todayTasks
         })
     }
 
-    getTasksUpcoming() {
+    getUpcomingTasks() {
+        let tomorrow = startOfDay(addDays(new Date(), 1))
+        let sevenDaysFromToday = startOfDay(addDays(new Date(), 7))
         return this.tasks.filter((task) => {
-            let taskDate = new Date(task.getDateFormatted())
-            return isThisWeek(subDays(toDate(taskDate), 1))
+            let taskDate = new Date(task.getFormattedDate())
+            let upcomingTasks = isWithinInterval(taskDate, {
+                start: tomorrow,
+                end: sevenDaysFromToday,
+            })
+            return upcomingTasks
         })
     }
 }

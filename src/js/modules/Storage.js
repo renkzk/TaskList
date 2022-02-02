@@ -92,4 +92,16 @@ export default class Storage {
         taskList.getList(listName).moveTaskToIncompleteArray(taskId)
         Storage.saveTaskList(taskList)
     }
+
+    static getTodayTasks() {
+        let todayTasks = Storage.getTaskList().getList("Inbox").getTodayTasks()
+        return todayTasks
+    }
+
+    static getUpcomingTasks() {
+        let upcomingTasks = Storage.getTaskList()
+            .getList("Inbox")
+            .getUpcomingTasks()
+        return upcomingTasks
+    }
 }

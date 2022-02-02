@@ -84,7 +84,7 @@ export default class UI {
         listElement.classList.add("selected")
 
         Storage.saveSelectedList(JSON.stringify(listName))
-        UI.renderMainSection(listName)
+        UI.renderMainSection()
     }
 
     static getActiveList() {
@@ -94,13 +94,17 @@ export default class UI {
         return unquotedSelectedList
     }
 
-    static renderMainSection(listName) {
-        let tasks = Storage.getTaskList().getList(listName).getTasks()
+    static renderMainSection() {
+        let selectedList = UI.getActiveList()
+        if (selectedList == "Today" || selectedList == "Upcoming") {
+            selectedList = "Inbox"
+        }
+        let tasks = Storage.getTaskList().getList(selectedList).getTasks()
         let remainingTasks = tasks.length
         let listDisplay = document.querySelector("#list-display")
         listDisplay.innerHTML = `
             <div id="list-header">
-                <h2 id="list-name-header">${listName}</h2>
+                <h2 id="list-name-header">${UI.getActiveList()}</h2>
                 <span id="task-counter">${
                     remainingTasks == 1
                         ? "1 task remaining"
@@ -117,9 +121,9 @@ export default class UI {
         `
         let mainHeader = document.querySelector("#list-name-header")
         if (
-            listName != "Inbox" &&
-            listName != "Today" &&
-            listName != "Upcoming"
+            selectedList != "Inbox" &&
+            selectedList != "Today" &&
+            selectedList != "Upcoming"
         ) {
             mainHeader.classList.add("user-list-header")
         } else mainHeader.classList.remove("user-list-header")
@@ -315,27 +319,59 @@ export default class UI {
     }
 
     static loadTasks() {
-        let tasks = Storage.getTaskList().getList(UI.getActiveList()).getTasks()
-        tasks.sort((a, b) => a.id - b.id)
-        tasks.forEach((task) =>
-            UI.createTaskElement(
-                task.id,
-                task.name,
-                task.dueDate,
-                task.dueTime,
-                task.priority
+        if (UI.getActiveList() == "Today") {
+            let tasks = Storage.getTodayTasks()
+            tasks.forEach((task) =>
+                UI.createTaskElement(
+                    task.id,
+                    task.name,
+                    task.dueDate,
+                    task.dueTime,
+                    task.priority
+                )
             )
-        )
+        } else if (UI.getActiveList() == "Upcoming") {
+            let tasks = Storage.getUpcomingTasks()
+            tasks.forEach((task) =>
+                UI.createTaskElement(
+                    task.id,
+                    task.name,
+                    task.dueDate,
+                    task.dueTime,
+                    task.priority
+                )
+            )
+        } else {
+            let tasks = Storage.getTaskList()
+                .getList(UI.getActiveList())
+                .getTasks()
+            tasks.sort((a, b) => a.id - b.id)
+            tasks.forEach((task) =>
+                UI.createTaskElement(
+                    task.id,
+                    task.name,
+                    task.dueDate,
+                    task.dueTime,
+                    task.priority
+                )
+            )
+        }
     }
 
     static deleteTask(taskId) {
         let listName = UI.getActiveList()
+        if (listName == "Today" || listName == "Upcoming") {
+            listName = "Inbox"
+        }
         Storage.deleteTask(listName, taskId)
         UI.openList(UI.getActiveList())
     }
 
     static checkTask(taskId) {
         let listName = UI.getActiveList()
+        if (listName == "Today" || listName == "Upcoming") {
+            listName = "Inbox"
+        }
         let task = Storage.getTaskList().getList(listName).getTask(taskId)
         Storage.checkTask(listName, taskId)
         setTimeout(() => {
@@ -714,7 +750,7 @@ export default class UI {
             )
             flatpickr("#flatpickr-date", {
                 inline: true,
-                dateFormat: "d M Y",
+                dateFormat: "d/m/Y",
                 minDate: "today",
                 enableTime: false,
                 onChange: function (dateObject, dateString) {
@@ -815,6 +851,9 @@ export default class UI {
 
         function openTask(taskId) {
             let list = UI.getActiveList()
+            if (list == "Today" || list == "Upcoming") {
+                list = "Inbox"
+            }
             let task = Storage.getTaskList().getList(list).getTask(taskId)
             let taskDisplay = document.createElement("div")
             taskDisplay.id = "task-display"
@@ -943,6 +982,7 @@ export default class UI {
             e.target.style.width = e.target.value.length + "ch"
         })
 
-        // document.body.addEventListener("click", (e) => console.log(e.target))
+        // let date = new Date()
+        // document.body.addEventListener("click", (e) => console.log(date))
     }
 }
